@@ -1,7 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Works when it has only passing tests 1`] = `
-Object {
-  "a": 1,
-}
-`;
+exports[`Works when it has only passing tests 1`] = `3`;

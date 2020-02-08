@@ -1,6 +1,7 @@
 'use strict';
 
 const {v4} = require('uuid');
+
 const runners = {};
 const Mocha = require('jest-runner-mocha-next');
 const  JestRunner  = require('jest-runner');
@@ -8,9 +9,8 @@ const { fileURLToPath } = require('url');
 
 const { CoverageInstrumenter } = require('collect-v8-coverage');
 const semver = require('semver');
-const setupCollectCoverage = require('./setupCollectCoverage');
 const minimatch = require('minimatch');
-
+const setupCollectCoverage = require('./setupCollectCoverage');
 
 class Runner {
   constructor(options) {
@@ -54,7 +54,7 @@ class Runner {
     }
     function shouldInstrument(file) {
       return !(
-          /node_modules/.test(file)
+        /node_modules/.test(file)
           || config.coveragePathIgnorePatterns.some(pattern => minimatch(file, pattern))
       );
     }
@@ -64,26 +64,29 @@ class Runner {
       }
 
       return v8CoverageResult
-          .filter(res => res.url.startsWith('file://'))
-          .map(res => ({ ...res, url: fileURLToPath(res.url) }))
-          .filter(
-              (res) => {
-                // TODO: will this work on windows? It might be better if `shouldInstrument` deals with it anyways
-                return res.url.startsWith(config.rootDir) && shouldInstrument(res.url);
-                // this._fileTransforms.has(res.url) &&
-                //  shouldInstrument(res.url, this._coverageOptions, this._config),
-              },
-          )
-          .map((result) => {
-            const transformedFile = result.url; // this._fileTransforms.get(result.url);
+        .filter(res => res.url.startsWith('file://'))
+        .map(res => ({ ...res, url: fileURLToPath(res.url) }))
+        .filter(
+          (res) => {
+            // TODO: will this work on windows? It might be better if `shouldInstrument` deals with it anyways
+            return res.url.startsWith(config.rootDir) && shouldInstrument(res.url);
+            // this._fileTransforms.has(res.url) &&
+            //  shouldInstrument(res.url, this._coverageOptions, this._config),
+          },
+        )
+        .map((result) => {
+          const transformedFile = result.url; // this._fileTransforms.get(result.url);
 
-            return {
-              codeTransformResult: transformedFile,
-              result,
-            };
-          });
+          return {
+            codeTransformResult: transformedFile,
+            result,
+          };
+        });
     }
 
+    require('fs').writeFileSync('./tmp/testsByRunner.json', JSON.stringify(testsByRunner, null, 3));
+
+/*
     const globalConfig = {collectCoverage: true, coverageProvider: 'v8'};
     if (globalConfig.collectCoverage) {
       if (globalConfig.coverageProvider === 'v8') {
@@ -97,31 +100,25 @@ class Runner {
         });
       }
     }
-    require('fs').writeFileSync('./tmp/testsByRunner.json', JSON.stringify(testsByRunner, null, 3));
-    let mochaResult;
-    let mochaTest;
-    let jasmineResult;
-    const resMocha = await new Promise((resolve, reject)=>{
-      runners.mocha.runTests(testsByRunner.mocha, watcher, onStart, (test,res)=>resolve(res), reject, options);
-    })
+    async function onResultMy(test, res) {
 
-    const [testJasmine, resJasmine] = await new Promise((resolve, reject)=>{
-      runners.jasmine.runTests(testsByRunner.jasmine, JSON.parse(JSON.stringify(watcher)), onStart, (test,res)=>resolve([test, res]), reject, options);
-    })
-    //await runners.jasmine.runTests(testsByRunner.jasmine, watcher, onStart, onResult, onFailure, options);
+      await stopCollectingV8Coverage();
+      const v8Coverage = getAllV8CoverageInfoCopy();
+      onResult(test, {...res, coverage: null, v8Coverage});
+    }*/
+    await runners.mocha.runTests(testsByRunner.mocha, watcher, onStart, onResult, onFailure, options);
+
+    await runners.jasmine.runTests(testsByRunner.jasmine, watcher, onStart, onResult, onFailure, options);
+    // await runners.jasmine.runTests(testsByRunner.jasmine, watcher, onStart, onResult, onFailure, options);
 
 
-    await stopCollectingV8Coverage();
-    const v8Coverage = getAllV8CoverageInfoCopy();
-    require('fs').writeFileSync('./tmp/v8Coverage.json', JSON.stringify(v8Coverage, null, 3));
-    const res = {...resJasmine, v8Coverage};
-    require('fs').writeFileSync('./tmp/res.json', JSON.stringify(res, null, 3));
-    //return res;
-    onResult(testJasmine, resJasmine);
+    //require('fs').writeFileSync('./tmp/v8Coverage.json', JSON.stringify(v8Coverage, null, 3));
+    // const res = {...resJasmine , v8Coverage};
+    // require('fs').writeFileSync('./tmp/res.json', JSON.stringify(res, null, 3));
 
-    //require('fs').writeFileSync('./tmp/res.json', JSON.stringify(res, null, 3));
-    //onResult(mochaTest, res);
-    //return res;
+    // require('fs').writeFileSync('./tmp/res.json', JSON.stringify(res, null, 3));
+    // onResult(mochaTest, res);
+    // return res;
   }
 }
 

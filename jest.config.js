@@ -7,4 +7,5 @@ module.exports = {
   ],
   runner: './src',
   maxWorkers: 2,
+  collectCoverageFrom: ['lib/*.js', 'test/*.js'],
 };

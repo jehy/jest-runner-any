@@ -1,5 +1,7 @@
 'use strict';
 
+const add = require('../lib/addJest');
+
 it('Works when it has only passing tests', () => {
-  return expect({a: 1}).toMatchSnapshot();
+  return expect(add(1, 2)).toMatchSnapshot();
 });
