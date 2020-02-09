@@ -1,33 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Works when it has only passing tests 1`] = `
-"PASS test/__fixtures__/passing/__tests__/test.jest.js
-Test Suites: 1 passed, 1 of 2 total
-Tests: 1 passed, 1 total
-Snapshots: 0 total
-Time:
-Ran all test suites.
-
-"
-`;
-
-exports[`Works when it has only passing tests and --coverage 1`] = `
-"PASS test/__fixtures__/passing/__tests__/test.jest.js
-Test Suites: 1 passed, 1 of 2 total
-Tests: 1 passed, 1 total
-Snapshots: 0 total
-Time:
-Ran all test suites.
-
-------------|---------|----------|---------|---------|-------------------
-File | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-------------|---------|----------|---------|---------|-------------------
-All files | 100 | 100 | 100 | 100 |
-addJest.js | 100 | 100 | 100 | 100 |
-------------|---------|----------|---------|---------|-------------------
-"
-`;
-
 exports[`Works when it has only passing tests and --coverage with v8 1`] = `
 "PASS test/__fixtures__/passing/__tests__/test.jest.js
 Test Suites: 1 passed, 1 of 2 total
@@ -36,10 +8,12 @@ Snapshots: 0 total
 Time:
 Ran all test suites.
 
-----------|---------|----------|---------|---------|-------------------
+-------------|---------|----------|---------|---------|-------------------
 File | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-----------|---------|----------|---------|---------|-------------------
+-------------|---------|----------|---------|---------|-------------------
 All files | 0 | 0 | 0 | 0 |
-----------|---------|----------|---------|---------|-------------------
+addJest.js | 0 | 0 | 0 | 0 | 1-3
+addMocha.js | 0 | 0 | 0 | 0 | 1-3
+-------------|---------|----------|---------|---------|-------------------
 "
 `;
