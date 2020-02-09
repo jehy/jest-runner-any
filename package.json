@@ -11,7 +11,7 @@
   },
   "homepage": "https://github.com/jehy/jest-runner-any",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "(rm \"tmp/*\" || echo \"no tmp\" )&& jest",
     "lint": "eslint ."
   },
   "dependencies": {

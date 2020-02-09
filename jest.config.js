@@ -3,9 +3,7 @@
 module.exports = {
   testPathIgnorePatterns: ['/node_modules/'],
   testMatch: [
-    '<rootDir>/test/*.js',
+    '<rootDir>/test/*.test.js',
   ],
-  runner: './src',
-  maxWorkers: 2,
-  collectCoverageFrom: ['lib/*.js', 'test/*.js'],
+  maxWorkers: 2
 };
