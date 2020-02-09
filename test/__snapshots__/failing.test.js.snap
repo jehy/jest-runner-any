@@ -1,14 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Works when it has failing tests 1`] = `
-"FAIL test/__fixtures__/failing/__tests__/test.mocha.js
-My tests This test fails
-AssertionError: 4 == 2
-+ expected - actual
--4
-+2
-at mocked-stack-trace
-FAIL test/__fixtures__/failing/__tests__/test.jest.js
+"FAIL test/__fixtures__/failing/__tests__/test.jest.js
 ● adds 1 + 2 to equal 4
 expect(received).toBe(expected) // Object.is equality
 Expected: 4
@@ -19,9 +12,9 @@ Received: 3
 | ^
 7 | });
 8 |
-mocked-stack-trace
-Test Suites: 2 failed, 2 total
-Tests: 2 failed, 2 total
+at mocked-stack-trace
+Test Suites: 1 failed, 1 of 2 total
+Tests: 1 failed, 1 total
 Snapshots: 0 total
 Time:
 Ran all test suites.

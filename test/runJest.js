@@ -53,6 +53,7 @@ function runJest(project, options = []) {
     '--no-colors',
     '--coverageReporters',
     'text',
+      '--resetModules', 'true',
     '--projects',
     `${projects}`,
   ].concat(options);

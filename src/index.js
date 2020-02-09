@@ -20,8 +20,8 @@ class Runner {
     runners.jasmine = new JestRunner({...clone(options), name: v4(), runner: require.resolve(JestRunner)});
     runners.mocha = new Mocha({...clone(options), name: v4(), runner: require.resolve(Mocha)});
      */
-    runners.jasmine = new JestRunner({...clone(options), name: v4()});
-    runners.mocha = new Mocha({...clone(options), name: v4()});
+    runners.jasmine = new JestRunner(options);
+    //runners.mocha = new Mocha({...clone(options), name: v4()});
   }
 
   async runTests(...data) {
@@ -30,15 +30,15 @@ class Runner {
     const testsByRunner = tests.reduce((res, item)=>{
       let foundWorker = 0;
       if (item.path.includes('mocha.js')) {
-        res.mocha.push(item);
+        res.mocha.push({...item, name: v4()});
         foundWorker++;
       }
       if (item.path.includes('jest.js')) {
-        res.jasmine.push(item);
+        res.jasmine.push({...item, name: v4()});
         foundWorker++;
       }
       if (foundWorker === 0) {
-        throw new Error(`path "${item.path}" did not match any worker!`);
+        // throw new Error(`path "${item.path}" did not match any worker!`);
       }
       if (foundWorker > 1) {
         throw new Error(`path "${item.path}" matched several workers!`);
@@ -49,7 +49,7 @@ class Runner {
 
     require('fs').writeFileSync(`./tmp/testsByRunner${v4()}.json`, JSON.stringify(testsByRunner, null, 3));
 
-    await runners.mocha.runTests(testsByRunner.mocha, watcher, onStart, onResult, onFailure, options);
+    // await runners.mocha.runTests(testsByRunner.mocha, watcher, onStart, onResult, onFailure, options);
 
     await runners.jasmine.runTests(testsByRunner.jasmine, watcher, onStart, onResult, onFailure, options);
   }

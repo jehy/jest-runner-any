@@ -5,5 +5,5 @@ module.exports = {
   testMatch: [
     '<rootDir>/test/*.test.js',
   ],
-  maxWorkers: 2
+  maxWorkers: 2,
 };

@@ -15,19 +15,21 @@ function normalize(res) {
     .join('\n');
 }
 
-it('Works when it has only passing tests', () => {
+xit('Works when it has only passing tests', () => {
   return expect(runJest('passing')).resolves.toMatchSnapshot();
-});
-
-it('Works when it has only passing tests and --coverage', () => {
-  return expect(runJest('passing', ['--coverage'])).resolves.toMatchSnapshot();
 });
 
 const runV8Test = semver.satisfies(process.version, '>= 10.12.0') ? it : xit;
 runV8Test('Works when it has only passing tests and --coverage with v8', () => {
   return expect(
-    runJest('passing', ['--coverage', '--coverageProvider', 'v8']).then(
-      normalize,
-    ),
+      runJest('passing', ['--coverage', '--coverageProvider', 'v8']).then(
+          normalize,
+      ),
   ).resolves.toMatchSnapshot();
 });
+
+
+xit('Works when it has only passing tests and --coverage', () => {
+  return expect(runJest('passing', ['--coverage'])).resolves.toMatchSnapshot();
+});
+
